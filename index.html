@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0E0F13" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)" />
+  <title>Frames That Speak — AR in Museum-Based Art History Learning · CMSC 731</title>
+  <meta name="description" content="Frames That Speak is an AR museum treasure hunt that uses spatially anchored interpretation and generatively produced living portraits to turn every gallery visit into a distinct learning experience. CMSC 731 final project, Spring 2026." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Frames That Speak — AR in Museum-Based Art History Learning" />
+  <meta property="og:description" content="An AR museum treasure hunt with spatially anchored interpretation and generative living portraits. CMSC 731, Spring 2026." />
+  <meta property="og:image" content="assets/images/og-card.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='6' y='6' width='52' height='52' fill='none' stroke='%23C9A961' stroke-width='4'/><circle cx='32' cy='32' r='10' fill='%237DD3FC'/></svg>" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header" role="banner">
+  <div class="wrap header-row">
+    <a class="brand" href="#top" aria-label="Frames That Speak — home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" focusable="false">
+          <rect x="3" y="3" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="16" cy="16" r="5" fill="currentColor" opacity="0.85"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-title">Frames That Speak</span>
+        <span class="brand-sub">CMSC 731 · Spring 2026</span>
+      </span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#motivation">Motivation</a></li>
+        <li><a href="#prior-work">State of the Art</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#accomplished">Accomplished</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#deliverables">Deliverables</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============== HERO ============== -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-frame" aria-hidden="true">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <span class="scanline"></span>
+    </div>
+
+    <div class="wrap hero-inner">
+      <p class="eyebrow"><span class="numeral">00</span> · Final Project</p>
+      <h1 id="hero-title" class="display">
+        Frames <em>That</em> Speak
+      </h1>
+      <p class="lede">
+        An augmented-reality museum treasure hunt where movement, close looking,
+        and in-place interpretation are the learning mechanism — not decoration.
+      </p>
+
+      <ul class="byline" aria-label="Project team">
+        <li><span class="who">Julian Bauer</span><span class="role">Interaction Engine &amp; Themed Hunt Logic</span></li>
+        <li><span class="who">Shruti Khetade</span><span class="role">Generative Living Portrait Pipeline</span></li>
+        <li><span class="who">Arindam Tripathi</span><span class="role">AR Recognition &amp; Anchor Pipeline</span></li>
+      </ul>
+
+      <div class="cta-row" role="group" aria-label="Project links">
+        <a class="btn btn-primary" href="#results">Watch the demo</a>
+        <a class="btn" href="assets/docs/frames-that-speak-slides.pdf" data-placeholder="Slides coming soon">Slides (PDF)</a>
+        <a class="btn" href="assets/docs/frames-that-speak-report.pdf" data-placeholder="Report coming soon">Final Report</a>
+        <a class="btn btn-ghost" href="https://github.com/jbauer21/FramesThatSpeakSite" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== MOTIVATION ============== -->
+  <section class="section" id="motivation" aria-labelledby="motivation-title">
+    <div class="wrap grid-2">
+      <header class="section-head">
+        <p class="numeral">01</p>
+        <h2 id="motivation-title">Motivation &amp; Background</h2>
+        <p class="kicker">Why this matters — and why AR is not automatic.</p>
+      </header>
+      <div class="section-body prose">
+        <h3>The attention problem</h3>
+        <p>
+          Studies at the Met and the Art Institute of Chicago suggest most visitors
+          spend only <strong>15 to 30 seconds</strong> in front of an individual
+          artwork. More time spent looking is directly associated with more intense
+          and meaningful experiences — but current museum formats rarely support that.
+        </p>
+
+        <h3>Information is not the bottleneck</h3>
+        <p>
+          Wall labels, audio guides, and video content can deliver facts, but they
+          pull attention <em>away</em> from the act of looking itself. For students
+          and novice visitors, the challenge is not a lack of information. It is a
+          lack of support for <strong>knowing what to notice</strong>.
+        </p>
+
+        <h3>Why AR is a candidate, not an obvious answer</h3>
+        <p>
+          Traditional interpretation asks visitors to shift attention between the
+          artwork and an external explanation — a label to the left, a phone
+          screen in hand, an audio track in their ears. Augmented reality could
+          keep interpretation <em>attached</em> to the artwork itself — anchoring
+          context, directing the eye, making discovery spatial. But AR is only
+          justified if it does more than deliver the same content through a more
+          novel interface.
+        </p>
+
+        <blockquote class="pull">
+          “Design an AR museum experience where movement, close looking, and
+          in-place interpretation are the learning mechanism — not decoration.”
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== STATE OF THE ART ============== -->
+  <section class="section section-alt" id="prior-work" aria-labelledby="prior-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">02</p>
+        <h2 id="prior-title">State of the Art &amp; Gaps</h2>
+        <p class="kicker">What existing systems do — and what they miss.</p>
+      </header>
+
+      <ol class="cards" role="list">
+        <li class="card">
+          <p class="card-tag">Museum AR overlays</p>
+          <p>
+            A 2022 meta-analytic review of 51 museum learning studies found AR
+            and VR produced significant positive effects on achievement and
+            perception. Yet most systems primarily superimpose supplementary
+            materials onto exhibits — stopping short of structured learning
+            interaction. <a href="#ref-2" aria-label="Reference 2">[2]</a>
+          </p>
+        </li>
+        <li class="card">
+          <p class="card-tag">Engagement ≠ Learning</p>
+          <p>
+            One art-museum study comparing AR and book-based guides found AR
+            increased visitors' liking of artworks more, while the book guide
+            produced stronger learning gains. Engagement and learning do not
+            automatically follow each other. <a href="#ref-3" aria-label="Reference 3">[3]</a>
+          </p>
+        </li>
+        <li class="card">
+          <p class="card-tag">Living-portrait precedent</p>
+          <p>
+            Snap's 2026 Jonathan Yeo Spectacles exhibition demonstrated AR-powered
+            portraits that respond to viewers in real time, and the Louvre's Snap
+            collaboration embedded curatorially-grounded AR content directly into
+            gallery visits. Living portraits are viable — but neither is designed
+            around a learning structure. <a href="#ref-4" aria-label="Reference 4">[4]</a><a href="#ref-5" aria-label="Reference 5">[5]</a>
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============== NEW CHALLENGES ============== -->
+  <section class="section" id="challenges" aria-labelledby="challenges-title">
+    <div class="wrap grid-2">
+      <header class="section-head">
+        <p class="numeral">03</p>
+        <h2 id="challenges-title">The Gap We Target</h2>
+        <p class="kicker">Structured learning, generative scale, and themed re-playability.</p>
+      </header>
+      <div class="section-body prose">
+        <p>
+          Prior work shows AR can raise engagement, and that living-portrait
+          interaction is technically and culturally viable. <strong>What is
+          missing</strong> is a system that uses both inside a structured
+          learning experience — one where the interaction teaches visitors
+          <em>how to look</em>, not just <em>what to know</em>. Existing museum
+          AR is also static: the same overlay, the same animation, every visit.
+        </p>
+        <p>
+          <strong>Frames That Speak</strong> is an AR museum treasure hunt that
+          guides visitors through a curated set of artworks using spatially
+          anchored clues, artwork-specific overlays, and generatively produced
+          animated portrait interactions. The experience is organized around
+          themed hunts — symbolism, patronage, composition, historical context —
+          so the same gallery yields a meaningfully different learning experience
+          each visit.
+        </p>
+        <p>
+          The generative layer is what makes it scale. Rather than manually
+          authoring animation assets per artwork, an image-to-video pipeline
+          produces living-portrait moments directly from static painting images.
+          Any artwork becomes a candidate for a portrait interaction without
+          bespoke production work.
+        </p>
+        <blockquote class="pull">
+          “Themed hunts, spatially anchored interpretation, and dynamically
+          produced living portraits turn every gallery visit into a distinct
+          learning experience.”
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== APPROACH ============== -->
+  <section class="section section-alt" id="approach" aria-labelledby="approach-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">04</p>
+        <h2 id="approach-title">Proposed Approach</h2>
+        <p class="kicker">Three workstreams, integrated into one experience.</p>
+      </header>
+
+      <ol class="workstreams" role="list">
+        <li class="ws">
+          <p class="ws-num" aria-hidden="true">A</p>
+          <h3>AR Recognition &amp; Anchor Pipeline</h3>
+          <p class="ws-owner"><span>Lead:</span> Arindam Tripathi</p>
+          <p>
+            Core AR infrastructure in Unity: image tracking for each artwork,
+            spatial anchoring of overlays to specific visual regions, and the
+            content-delivery pipeline from artwork recognition to in-scene
+            interaction. Built and tested on a mobile AR stack using AR
+            Foundation.
+          </p>
+          <ul class="ws-stack">
+            <li>Unity</li><li>AR Foundation</li><li>ARKit / ARCore</li>
+          </ul>
+        </li>
+
+        <li class="ws">
+          <p class="ws-num" aria-hidden="true">B</p>
+          <h3>Interaction Engine &amp; Themed Hunt Logic</h3>
+          <p class="ws-owner"><span>Lead:</span> Julian Bauer</p>
+          <p>
+            The system that drives the experience: clue progression,
+            theme-based branching logic, prompt triggering, state management
+            across artworks, and the UI flow for treasure-hunt completion.
+            One artwork set supports multiple themed learning paths.
+          </p>
+          <ul class="ws-stack">
+            <li>C#</li><li>State machines</li><li>UI Toolkit</li>
+          </ul>
+        </li>
+
+        <li class="ws">
+          <p class="ws-num" aria-hidden="true">C</p>
+          <h3>Generative Living Portrait Pipeline</h3>
+          <p class="ws-owner"><span>Lead:</span> Shruti Khetade</p>
+          <p>
+            An image-to-video generation workflow that turns static painting
+            images into animated portrait moments, then integrates those
+            outputs into the AR experience. Evaluation of generation quality,
+            consistency, and fit across portrait types and art styles, wired
+            to contextual triggers in the app.
+          </p>
+          <ul class="ws-stack">
+            <li>Image-to-video models</li><li>Python</li><li>Asset pipeline</li>
+          </ul>
+        </li>
+      </ol>
+
+      <p class="footnote">
+        Workstreams are broad ownership areas, not strict silos. The team
+        collaborated across implementation, integration, and evaluation
+        throughout the semester.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============== ACCOMPLISHED ============== -->
+  <section class="section" id="accomplished" aria-labelledby="accomplished-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">05</p>
+        <h2 id="accomplished-title">What Was Accomplished</h2>
+        <p class="kicker">Borrowed vs. implemented, and who did what — precisely.</p>
+      </header>
+
+      <div class="placeholder-note" role="note">
+        <strong>Placeholder copy.</strong> Final accomplishments and per-person
+        contribution narratives will be inserted before the May 16 report
+        deadline. Current text reflects planned milestones from the proposal.
+      </div>
+
+      <h3 class="subhead">Borrowed components</h3>
+      <div class="table-wrap">
+        <table class="data" aria-label="Borrowed components">
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">Source</th><th scope="col">Role in our system</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>AR Foundation</td><td>Unity Technologies</td><td>Image tracking + anchor primitives on iOS / Android.</td></tr>
+            <tr><td>ARKit / ARCore</td><td>Apple / Google</td><td>Underlying device tracking exposed via AR Foundation.</td></tr>
+            <tr><td>Image-to-video model</td><td><em>To be specified</em></td><td>Base generative backbone for living-portrait clips.</td></tr>
+            <tr><td>Source artwork images</td><td>Public-domain museum collections</td><td>Inputs to the living-portrait pipeline; staged gallery prints.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="subhead">Implemented by us</h3>
+      <div class="table-wrap">
+        <table class="data" aria-label="Components implemented by the team">
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">Owner</th><th scope="col">Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Artwork recognition + anchor stability</td><td>Arindam</td><td>Per-artwork tracked-image library, anchor binding to overlay regions, recovery on track loss.</td></tr>
+            <tr><td>Themed-hunt state machine</td><td>Julian</td><td>Clue progression, multi-theme branching, hunt completion + reset, cross-artwork state.</td></tr>
+            <tr><td>Clue / overlay UI flow</td><td>Julian</td><td>In-scene UI for clue delivery, hint reveal, theme selection, accessibility affordances.</td></tr>
+            <tr><td>Living-portrait generation workflow</td><td>Shruti</td><td>Prompt + parameter recipes per portrait type, batch generation, quality gating.</td></tr>
+            <tr><td>Generative output → AR integration</td><td>Shruti + Arindam</td><td>Encoding, transparency handling, in-scene playback tied to recognition events.</td></tr>
+            <tr><td>Staged gallery + walkthrough demo</td><td>All</td><td>Printed reproductions, lighting, scripted walkthrough, capture for demo video.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== RESULTS ============== -->
+  <section class="section section-alt" id="results" aria-labelledby="results-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">06</p>
+        <h2 id="results-title">Results &amp; Demo</h2>
+        <p class="kicker">System walkthrough, comparisons, and analysis.</p>
+      </header>
+
+      <figure class="video-wrap">
+        <div class="video-placeholder" role="img" aria-label="Demo video placeholder">
+          <span class="video-icon" aria-hidden="true">▶</span>
+          <p>Demo video will live here.</p>
+          <p class="hint">Drop the file at <code>assets/videos/demo.mp4</code> and uncomment the &lt;video&gt; tag in <code>index.html</code>.</p>
+        </div>
+        <!--
+          <video controls preload="metadata" poster="assets/images/demo-poster.jpg">
+            <source src="assets/videos/demo.mp4" type="video/mp4" />
+            <track kind="captions" src="assets/videos/demo.vtt" srclang="en" label="English captions" default />
+            Your browser does not support the video tag.
+          </video>
+        -->
+        <figcaption>End-to-end walkthrough: recognition → clue → overlay → living portrait.</figcaption>
+      </figure>
+
+      <h3 class="subhead">Screenshots</h3>
+      <ul class="gallery" role="list">
+        <li><button class="thumb" type="button" data-full="assets/images/shot-01.jpg" aria-label="Open screenshot 1 — staged gallery, recognition active">
+          <span class="thumb-ph">01 · Staged gallery</span>
+        </button></li>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-02.jpg" aria-label="Open screenshot 2 — anchored clue overlay">
+          <span class="thumb-ph">02 · Anchored clue</span>
+        </button></li>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-03.jpg" aria-label="Open screenshot 3 — living portrait moment">
+          <span class="thumb-ph">03 · Living portrait</span>
+        </button></li>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-04.jpg" aria-label="Open screenshot 4 — themed-hunt selection UI">
+          <span class="thumb-ph">04 · Theme select</span>
+        </button></li>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-05.jpg" aria-label="Open screenshot 5 — hunt completion state">
+          <span class="thumb-ph">05 · Hunt complete</span>
+        </button></li>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-06.jpg" aria-label="Open screenshot 6 — generation pipeline output">
+          <span class="thumb-ph">06 · Generation grid</span>
+        </button></li>
+      </ul>
+      <p class="footnote">Drop final stills into <code>assets/images/</code> using the filenames above; thumbnails will swap in automatically.</p>
+
+      <h3 class="subhead">Comparison &amp; analysis</h3>
+      <div class="grid-2 compare">
+        <div class="compare-card">
+          <h4>Theme A vs. Theme B walkthroughs</h4>
+          <p class="placeholder-inline">Side-by-side video / observations placeholder. Pilot with 2–3 participants planned for Week 6.</p>
+        </div>
+        <div class="compare-card">
+          <h4>Generated vs. curated portrait clips</h4>
+          <p class="placeholder-inline">Quality and consistency analysis across portrait types — placeholder until generation runs are finalized.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SUMMARY ============== -->
+  <section class="section" id="summary" aria-labelledby="summary-title">
+    <div class="wrap grid-2">
+      <header class="section-head">
+        <p class="numeral">07</p>
+        <h2 id="summary-title">Summary &amp; Future Work</h2>
+        <p class="kicker">Contributions, stretch goals, and a long-term vision.</p>
+      </header>
+      <div class="section-body prose">
+        <h3>Contributions</h3>
+        <ul>
+          <li>An end-to-end AR experience that integrates recognition, anchored interpretation, and generative living portraits in a single flow.</li>
+          <li>A themed-hunt interaction model that turns the same gallery into a different learning path on each visit.</li>
+          <li>A generative pipeline that scales living-portrait moments to new artworks without bespoke animation work.</li>
+        </ul>
+
+        <h3>Future work</h3>
+        <ul>
+          <li><strong>Pilot study.</strong> Compare two themed hunts through the same artwork set; measure focus and recall.</li>
+          <li><strong>Generation quality gating.</strong> Automated filters for identity drift, motion artifacts, and tone fit.</li>
+          <li><strong>Glasses-based deployment.</strong> Port the experience to platforms such as Snap Spectacles for hands-free, in-gallery use at scale.</li>
+          <li><strong>Curatorial co-authoring.</strong> Tools for curators to define new themes and clue chains without engineering support.</li>
+        </ul>
+
+        <h3>Fallbacks honored</h3>
+        <ul>
+          <li>If generation quality is uneven, a curated baseline of high-quality clips is shipped alongside the live pipeline.</li>
+          <li>If full hunt progression slips, one complete themed interaction (one artwork, one theme) is demonstrated end to end.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== DELIVERABLES ============== -->
+  <section class="section section-alt" id="deliverables" aria-labelledby="deliverables-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">08</p>
+        <h2 id="deliverables-title">Deliverables</h2>
+        <p class="kicker">Slides, report, demo video, and source.</p>
+      </header>
+
+      <ul class="deliverables" role="list">
+        <li class="deliverable">
+          <p class="d-tag">Presentation</p>
+          <h3>Final slide deck</h3>
+          <p>10–15 minute presentation covering motivation, approach, results, and future work.</p>
+          <a class="btn btn-primary" href="assets/docs/frames-that-speak-slides.pdf" data-placeholder="Coming soon">Download (PDF)</a>
+        </li>
+        <li class="deliverable">
+          <p class="d-tag">Report</p>
+          <h3>Final project report</h3>
+          <p>Written report covering technical detail, results, evaluation, and contribution breakdown.</p>
+          <a class="btn btn-primary" href="assets/docs/frames-that-speak-report.pdf" data-placeholder="Coming soon">Download (PDF)</a>
+        </li>
+        <li class="deliverable">
+          <p class="d-tag">Demo</p>
+          <h3>System walkthrough video</h3>
+          <p>Captured walkthrough of the staged gallery, narrated.</p>
+          <a class="btn btn-primary" href="assets/videos/demo.mp4" data-placeholder="Coming soon">Watch</a>
+        </li>
+        <li class="deliverable">
+          <p class="d-tag">Source</p>
+          <h3>Project repository</h3>
+          <p>Site source on GitHub. Project source repositories linked from the README.</p>
+          <a class="btn btn-primary" href="https://github.com/jbauer21/FramesThatSpeakSite" rel="noopener">Open repo</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== REFERENCES ============== -->
+  <section class="section" id="references" aria-labelledby="references-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">09</p>
+        <h2 id="references-title">References</h2>
+      </header>
+
+      <ol class="refs">
+        <li id="ref-1">
+          American Alliance of Museums. (2021). <em>The Secrets of Emotion.</em>
+          <a href="https://www.aam-us.org/2021/07/01/the-secrets-of-emotion/" rel="noopener">aam-us.org</a>
+        </li>
+        <li id="ref-2">
+          Zhou, Y., Chen, J., &amp; Wang, M. (2022). A meta-analytic review on incorporating
+          virtual and augmented reality in museum learning. <em>Educational Research Review</em>, 36, 100454.
+          <a href="https://doi.org/10.1016/j.edurev.2022.100454" rel="noopener">doi.org/10.1016/j.edurev.2022.100454</a>
+        </li>
+        <li id="ref-3">
+          Aitamurto, T., Boin, J.-B., Chen, K., et al. (2018). <em>The Impact of Augmented
+          Reality on Art Engagement: Liking, Impression of Learning, and Distraction.</em>
+        </li>
+        <li id="ref-4">
+          Snap Inc. (2026). <em>Spectacular: The Art of Jonathan Yeo in Augmented Reality
+          Makes Its U.S. Debut at SXSW.</em>
+          <a href="https://newsroom.snap.com/spectacular-art-of-jonathan-yeo-sxsw" rel="noopener">newsroom.snap.com</a>
+        </li>
+        <li id="ref-5">
+          Snap Inc. (2026). <em>Snapchat and the Louvre.</em>
+          <a href="https://newsroom.snap.com/the-incredible-unknowns" rel="noopener">newsroom.snap.com</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap footer-row">
+    <p>
+      <strong>Frames That Speak</strong> · CMSC 731, Spring 2026 ·
+      Julian Bauer, Shruti Khetade, Arindam Tripathi
+    </p>
+    <p class="muted">
+      Site last updated <time datetime="2026-05-15">May 15, 2026</time>.
+      Built as a static site; deployable to GitHub Pages from the repo root.
+    </p>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <button class="lb-close" type="button" aria-label="Close image viewer">×</button>
+  <img class="lb-img" alt="" />
+  <p class="lb-caption" aria-live="polite"></p>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
