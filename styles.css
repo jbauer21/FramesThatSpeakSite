@@ -138,11 +138,13 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 }
 .header-row {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 1.5rem; min-height: 68px;
+  gap: 1rem; min-height: 68px;
+  flex-wrap: nowrap;
 }
 .brand {
   display: inline-flex; align-items: center; gap: .8rem;
   color: var(--text); text-decoration: none;
+  flex-shrink: 0;
 }
 .brand:hover { text-decoration: none; }
 .brand-mark { color: var(--gold); display: inline-flex; }
@@ -150,26 +152,46 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 .brand-title { font-family: var(--serif); font-weight: 600; font-size: 1.15rem; letter-spacing: .01em; }
 .brand-sub { font-family: var(--mono); font-size: .72rem; color: var(--text-dim); letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
 
+.primary-nav {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+}
 .primary-nav ul {
   list-style: none; margin: 0; padding: 0;
-  display: flex; flex-wrap: wrap; gap: .25rem;
+  display: flex; flex-wrap: nowrap; gap: .1rem;
+  min-width: 0;
 }
 .primary-nav a {
   display: inline-flex; align-items: center;
-  padding: .55rem .8rem;
-  font-size: .9rem;
+  padding: .55rem .65rem;
+  font-size: .88rem;
   color: var(--text-dim);
   border-radius: var(--radius);
   text-decoration: none;
+  white-space: nowrap;
   transition: color .2s var(--ease), background .2s var(--ease);
 }
 .primary-nav a:hover { color: var(--text); background: var(--ink-3); text-decoration: none; }
 
-@media (max-width: 720px) {
-  .primary-nav { width: 100%; overflow-x: auto; }
-  .primary-nav ul { flex-wrap: nowrap; padding-bottom: .25rem; }
-  .header-row { flex-wrap: wrap; padding-top: .5rem; padding-bottom: .5rem; }
+/* Below this width the nav becomes a horizontally-scrollable strip
+   that sits underneath the brand, so it never collides with it. */
+@media (max-width: 980px) {
+  .header-row { flex-wrap: wrap; padding-top: .5rem; padding-bottom: .5rem; gap: .5rem; }
+  .primary-nav {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    justify-content: flex-start;
+    /* Subtle fade hint at the right edge so users know they can scroll */
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 24px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 24px), transparent 100%);
+  }
+  .primary-nav ul { padding-bottom: .25rem; }
 }
+
 
 /* ---------- Hero ---------- */
 .hero {
@@ -468,6 +490,62 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   background: var(--ink-3); padding: 0 .35em; border-radius: 4px;
   border: 1px solid var(--line);
 }
+
+/* ---------- Course Integration pillars ---------- */
+.course-intro {
+  max-width: 75ch;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.course-intro p {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.course-pillars {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  counter-reset: pillar;
+}
+.pillar {
+  background: var(--ink-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.75rem 1.85rem;
+  position: relative;
+  transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.pillar:hover {
+  border-color: color-mix(in srgb, var(--cyan) 50%, var(--line));
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -24px rgba(125,211,252,0.4);
+}
+.pillar-tag {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 .65rem;
+}
+.pillar h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  margin: 0 0 .65rem;
+  color: var(--text);
+}
+.pillar p {
+  margin: 0;
+  color: var(--text);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+.pillar em { color: var(--text-dim); font-style: italic; }
+.pillar strong { color: var(--text); font-weight: 600; }
 
 /* ---------- Tables ---------- */
 .subhead {

@@ -44,10 +44,11 @@
     <nav class="primary-nav" aria-label="Primary">
       <ul>
         <li><a href="#motivation">Motivation</a></li>
-        <li><a href="#prior-work">State of the Art</a></li>
+        <li><a href="#prior-work">Prior Work</a></li>
         <li><a href="#approach">Approach</a></li>
         <li><a href="#accomplished">Accomplished</a></li>
         <li><a href="#results">Results</a></li>
+        <li><a href="#course-integration">Course</a></li>
         <li><a href="assets/docs/frames-that-speak-slides.pdf">Slides</a></li>
         <li><a href="#deliverables">Deliverables</a></li>
         <li><a href="#references">References</a></li>
@@ -397,11 +398,87 @@
     </div>
   </section>
 
+  <!-- ============== COURSE INTEGRATION ============== -->
+  <section class="section" id="course-integration" aria-labelledby="course-title">
+    <div class="wrap">
+      <header class="section-head wide">
+        <p class="numeral">07</p>
+        <h2 id="course-title">Course Integration</h2>
+        <p class="kicker">How the project applies core CMSC 731 concepts.</p>
+      </header>
+
+      <div class="prose course-intro">
+        <p>
+          Frames That Speak applies several core concepts from the course:
+          <strong>AR/MR registration, tracking, spatial understanding, Unity XR
+          architecture, and human-centered evaluation</strong>. At the technical
+          level, the project is not just an animated museum label. It is a
+          <em>registration problem</em>: the system must recognize a physical
+          artwork, estimate where it is in the headset camera view, convert that
+          detection into a physical wall hit, and then align a virtual
+          living-portrait overlay to the real surface.
+        </p>
+      </div>
+
+      <ol class="course-pillars" role="list">
+        <li class="pillar">
+          <p class="pillar-tag">Concept 01</p>
+          <h3>Registration, tracking &amp; spatial understanding</h3>
+          <p>
+            Recognition alone is not enough. The pipeline chains
+            <em>image-space detection</em> (OpenCV ORB on the passthrough
+            frame) into <em>headset-space anchoring</em> (passthrough viewport
+            ray → environment raycast → wall hit). The overlay's final pose
+            depends on both the image match and the headset's live spatial
+            model of the room.
+          </p>
+        </li>
+        <li class="pillar">
+          <p class="pillar-tag">Concept 02</p>
+          <h3>Pure AR vs. mixed reality</h3>
+          <p>
+            A marker-style AR system could simply detect an image and place
+            content relative to a 2D target. Our Quest prototype goes further by
+            combining OpenCV-based artwork recognition with passthrough camera
+            rays and Meta environment raycasting — so the overlay is grounded
+            in the geometry of the physical wall, not just in the picture plane.
+          </p>
+        </li>
+        <li class="pillar">
+          <p class="pillar-tag">Concept 03</p>
+          <h3>Unity XR architecture</h3>
+          <p>
+            The system is layered: <strong>Unity</strong> as the real-time
+            engine, <strong>Meta SDK</strong> for headset-level passthrough and
+            environment raycasting, <strong>OpenCV</strong> for recognition,
+            and a custom <strong>interaction system</strong> for clue
+            progression across artworks. This mirrors how XR stacks combine
+            device tracking, perception, rendering, and interaction into a
+            single experience.
+          </p>
+        </li>
+        <li class="pillar">
+          <p class="pillar-tag">Concept 04</p>
+          <h3>Human-centered XR &amp; evaluation</h3>
+          <p>
+            The motivation was not to add more information to a museum visit,
+            but to keep interpretation <em>spatially attached</em> to the
+            artwork — supporting close looking by making movement, recognition,
+            animation, and response part of the learning loop. Future work can
+            evaluate this through recall, time spent looking, overlay
+            stability, usability, distraction, and perceived attachment to the
+            physical frame.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <!-- ============== SUMMARY ============== -->
-  <section class="section" id="summary" aria-labelledby="summary-title">
+  <section class="section section-alt" id="summary" aria-labelledby="summary-title">
     <div class="wrap grid-2">
       <header class="section-head">
-        <p class="numeral">07</p>
+        <p class="numeral">08</p>
         <h2 id="summary-title">Summary &amp; Future Work</h2>
         <p class="kicker">Contributions, stretch goals, and a long-term vision.</p>
       </header>
@@ -431,10 +508,10 @@
   </section>
 
   <!-- ============== DELIVERABLES ============== -->
-  <section class="section section-alt" id="deliverables" aria-labelledby="deliverables-title">
+  <section class="section" id="deliverables" aria-labelledby="deliverables-title">
     <div class="wrap">
       <header class="section-head wide">
-        <p class="numeral">08</p>
+        <p class="numeral">09</p>
         <h2 id="deliverables-title">Deliverables</h2>
         <p class="kicker">Slides, demo video, and source.</p>
       </header>
@@ -465,10 +542,10 @@
   </section>
 
   <!-- ============== REFERENCES ============== -->
-  <section class="section" id="references" aria-labelledby="references-title">
+  <section class="section section-alt" id="references" aria-labelledby="references-title">
     <div class="wrap">
       <header class="section-head wide">
-        <p class="numeral">09</p>
+        <p class="numeral">10</p>
         <h2 id="references-title">References</h2>
       </header>
 
