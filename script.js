@@ -3,9 +3,7 @@
    - Lightbox (focus-trapped, ESC closes, returns focus)
    - Scroll reveal (respects prefers-reduced-motion)
    - Active-section highlight in primary nav
-   - Graceful image fallback for thumbnails (placeholder stays
-     visible if file is missing)
-   - Placeholder asset link guard (prevents 404 navigation)
+   - Graceful image fallback for thumbnails
    ========================================================= */
 
 (() => {
@@ -134,41 +132,5 @@
     }
   `;
   document.head.appendChild(style);
-
-  /* --------- Placeholder link guard ---------
-     Buttons that point at not-yet-uploaded assets get
-     intercepted; they show their tooltip instead of 404'ing. */
-  document.querySelectorAll('a[data-placeholder]').forEach(a => {
-    a.addEventListener('click', async (e) => {
-      const href = a.getAttribute('href');
-      if (!href || href.startsWith('#') || href.startsWith('http')) return;
-      // Probe with HEAD; if the asset doesn't exist, prevent navigation.
-      e.preventDefault();
-      try {
-        const res = await fetch(href, { method: 'HEAD' });
-        if (res.ok) {
-          window.location.href = href;
-        } else {
-          flashTooltip(a);
-        }
-      } catch {
-        flashTooltip(a);
-      }
-    });
-  });
-
-  function flashTooltip(el) {
-    el.classList.add('is-flashing');
-    el.setAttribute('aria-disabled', 'true');
-    setTimeout(() => el.classList.remove('is-flashing'), 1400);
-  }
-
-  // Inject a tiny style for the flash state
-  const flashStyle = document.createElement('style');
-  flashStyle.textContent = `
-    .btn.is-flashing::after { opacity: 1 !important; }
-    .btn[aria-disabled="true"] { cursor: not-allowed; }
-  `;
-  document.head.appendChild(flashStyle);
 
 })();

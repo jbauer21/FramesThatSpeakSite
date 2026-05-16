@@ -48,6 +48,7 @@
         <li><a href="#approach">Approach</a></li>
         <li><a href="#accomplished">Accomplished</a></li>
         <li><a href="#results">Results</a></li>
+        <li><a href="assets/docs/frames-that-speak-slides.pdf">Slides</a></li>
         <li><a href="#deliverables">Deliverables</a></li>
         <li><a href="#references">References</a></li>
       </ul>
@@ -83,9 +84,8 @@
 
       <div class="cta-row" role="group" aria-label="Project links">
         <a class="btn btn-primary" href="#results">Watch the demo</a>
-        <a class="btn" href="assets/docs/frames-that-speak-slides.pdf" data-placeholder="Slides coming soon">Slides (PDF)</a>
-        <a class="btn" href="assets/docs/frames-that-speak-report.pdf" data-placeholder="Report coming soon">Final Report</a>
-        <a class="btn btn-ghost" href="https://github.com/jbauer21/FramesThatSpeakSite" rel="noopener">GitHub</a>
+        <a class="btn" href="assets/docs/frames-that-speak-slides.pdf">View slide deck</a>
+        <a class="btn btn-ghost" href="https://github.com/arindamshivatrip/Framing_Tests/tree/Game_Navigation" rel="noopener">GitHub</a>
       </div>
     </div>
   </section>
@@ -234,14 +234,16 @@
           <h3>AR Recognition &amp; Anchor Pipeline</h3>
           <p class="ws-owner"><span>Lead:</span> Arindam Tripathi</p>
           <p>
-            Core AR infrastructure in Unity: image tracking for each artwork,
-            spatial anchoring of overlays to specific visual regions, and the
-            content-delivery pipeline from artwork recognition to in-scene
-            interaction. Built and tested on a mobile AR stack using AR
-            Foundation.
+            Core mixed-reality infrastructure on Meta Quest 3: a custom
+            OpenCV ORB image-tracking pipeline running through an Android Java
+            plugin, fused with Meta's Passthrough Camera Access and
+            Environment Raycast APIs to anchor video overlays directly onto
+            the physical wall surface of each artwork.
           </p>
           <ul class="ws-stack">
-            <li>Unity</li><li>AR Foundation</li><li>ARKit / ARCore</li>
+            <li>Unity 6</li><li>Meta XR SDK</li><li>Quest 3 Passthrough</li>
+            <li>OpenCV 4.13 (ORB)</li><li>Android Java plugin</li>
+            <li>Environment Raycast</li>
           </ul>
         </li>
 
@@ -294,12 +296,6 @@
         <p class="kicker">Borrowed vs. implemented, and who did what — precisely.</p>
       </header>
 
-      <div class="placeholder-note" role="note">
-        <strong>Placeholder copy.</strong> Final accomplishments and per-person
-        contribution narratives will be inserted before the May 16 report
-        deadline. Current text reflects planned milestones from the proposal.
-      </div>
-
       <h3 class="subhead">Borrowed components</h3>
       <div class="table-wrap">
         <table class="data" aria-label="Borrowed components">
@@ -307,9 +303,12 @@
             <tr><th scope="col">Component</th><th scope="col">Source</th><th scope="col">Role in our system</th></tr>
           </thead>
           <tbody>
-            <tr><td>AR Foundation</td><td>Unity Technologies</td><td>Image tracking + anchor primitives on iOS / Android.</td></tr>
-            <tr><td>ARKit / ARCore</td><td>Apple / Google</td><td>Underlying device tracking exposed via AR Foundation.</td></tr>
-            <tr><td>Image-to-video model</td><td><em>To be specified</em></td><td>Base generative backbone for living-portrait clips.</td></tr>
+            <tr><td>Meta XR All-in-One SDK</td><td>Meta</td><td>Quest 3 tracking, passthrough rendering, and OpenXR integration in Unity.</td></tr>
+            <tr><td>Passthrough Camera Access</td><td>Meta</td><td>Live passthrough camera frames + <code>ViewportPointToRay</code> for camera-space rays.</td></tr>
+            <tr><td>Environment Raycast / Depth</td><td>Meta</td><td>Real-world wall hits used to anchor overlays to the physical surface.</td></tr>
+            <tr><td>OpenCV 4.13 (Android)</td><td>OpenCV.org</td><td>ORB feature detection, descriptor matching, and homography for target recognition.</td></tr>
+            <tr><td>Unity 6 / VideoPlayer / URP</td><td>Unity Technologies</td><td>Runtime engine, world-space video overlays, render-texture compositing.</td></tr>
+            <tr><td>Image-to-video model</td><td>Shruti's generative pipeline</td><td>Base generative backbone for living-portrait clips.</td></tr>
             <tr><td>Source artwork images</td><td>Public-domain museum collections</td><td>Inputs to the living-portrait pipeline; staged gallery prints.</td></tr>
           </tbody>
         </table>
@@ -322,15 +321,44 @@
             <tr><th scope="col">Component</th><th scope="col">Owner</th><th scope="col">Description</th></tr>
           </thead>
           <tbody>
-            <tr><td>Artwork recognition + anchor stability</td><td>Arindam</td><td>Per-artwork tracked-image library, anchor binding to overlay regions, recovery on track loss.</td></tr>
+            <tr><td>Custom OpenCV Android plugin (<code>QuestImageTrackerPlugin.jar</code>)</td><td>Arindam</td><td>Java/OpenCV bridge that initializes ORB targets, processes Quest passthrough frames, and returns detection JSON to Unity.</td></tr>
+            <tr><td>Quest passthrough → detection driver (<code>QuestCameraFrameToAndroidTest.cs</code>)</td><td>Arindam</td><td>Captures the passthrough texture, downscales frames, calls the Android plugin, and forwards detections to the overlay system.</td></tr>
+            <tr><td>Wall-anchored overlay (<code>TargetWorldPoseOverlay.cs</code>)</td><td>Arindam</td><td>Converts the detected target center into a passthrough viewport ray, raycasts against the physical wall, and places the video overlay aligned to the wall normal.</td></tr>
+            <tr><td>Camera-model + Y-flip alignment fix</td><td>Arindam</td><td>Switched from render-camera viewport rays to <code>PassthroughCameraAccess.ViewportPointToRay</code> and corrected the passthrough Y convention so the overlay lands on the artwork.</td></tr>
+            <tr><td>Lock / pause / reset behavior</td><td>Arindam</td><td>Freezes overlay after first good lock, pauses OpenCV detection via <code>ShouldPauseExternalDetection</code>, and supports manual reset on the A/X button.</td></tr>
             <tr><td>Themed-hunt state machine</td><td>Julian</td><td>Clue progression, multi-theme branching, hunt completion + reset, cross-artwork state.</td></tr>
             <tr><td>Clue / overlay UI flow</td><td>Julian</td><td>In-scene UI for clue delivery, hint reveal, theme selection, accessibility affordances.</td></tr>
             <tr><td>Living-portrait generation workflow</td><td>Shruti</td><td>Prompt + parameter recipes per portrait type, batch generation, quality gating.</td></tr>
-            <tr><td>Generative output → AR integration</td><td>Shruti + Arindam</td><td>Encoding, transparency handling, in-scene playback tied to recognition events.</td></tr>
+            <tr><td>Generative output → AR integration</td><td>Shruti + Arindam</td><td>Encoding, transparency handling, Unity <code>VideoPlayer</code> playback tied to recognition events.</td></tr>
             <tr><td>Staged gallery + walkthrough demo</td><td>All</td><td>Printed reproductions, lighting, scripted walkthrough, capture for demo video.</td></tr>
           </tbody>
         </table>
       </div>
+
+      <h3 class="subhead">AR recognition pipeline — at a glance</h3>
+      <p>
+        The final image-tracking and anchoring loop combines OpenCV-based
+        recognition with Meta's spatial APIs. OpenCV finds the artwork in
+        the camera frame; the headset is responsible for placing the overlay
+        on the real wall.
+      </p>
+      <pre class="codeblock" aria-label="Image tracking pipeline"><code>Quest passthrough camera frame
+  → OpenCV ORB target detection (Android plugin)
+  → detection JSON returned to Unity
+  → target center computed from detected corners
+  → PassthroughCameraAccess.ViewportPointToRay (Y-flipped)
+  → EnvironmentRaycastManager.Raycast hits the physical wall
+  → overlay placed at hit.point, aligned to hit.normal
+  → freeze after first good lock; pause detection until reset</code></pre>
+
+      <h3 class="subhead">Key technical decisions</h3>
+      <ul class="prose-list">
+        <li><strong>Custom OpenCV over paid trackers.</strong> A free, inspectable Android plugin replaced commercial image-tracking SDKs.</li>
+        <li><strong>ORB feature matching.</strong> Fast enough for Quest, well-suited to printed artwork reproductions.</li>
+        <li><strong>JSON bridge between Java and Unity.</strong> Made <code>goodMatches</code>, <code>inliers</code>, <code>corners</code>, and <code>tvec</code> visible in logcat for debugging.</li>
+        <li><strong>Environment raycast instead of raw OpenCV pose.</strong> OpenCV handles <em>where in the image</em>; the headset handles <em>where on the wall</em>.</li>
+        <li><strong>Freeze + pause after lock.</strong> Stops jitter and reduces runtime overhead once the overlay is anchored.</li>
+      </ul>
     </div>
   </section>
 
@@ -340,59 +368,32 @@
       <header class="section-head wide">
         <p class="numeral">06</p>
         <h2 id="results-title">Results &amp; Demo</h2>
-        <p class="kicker">System walkthrough, comparisons, and analysis.</p>
+        <p class="kicker">End-to-end system walkthrough and gallery captures.</p>
       </header>
 
       <figure class="video-wrap">
-        <div class="video-placeholder" role="img" aria-label="Demo video placeholder">
-          <span class="video-icon" aria-hidden="true">▶</span>
-          <p>Demo video will live here.</p>
-          <p class="hint">Drop the file at <code>assets/videos/demo.mp4</code> and uncomment the &lt;video&gt; tag in <code>index.html</code>.</p>
-        </div>
-        <!--
-          <video controls preload="metadata" poster="assets/images/demo-poster.jpg">
-            <source src="assets/videos/demo.mp4" type="video/mp4" />
-            <track kind="captions" src="assets/videos/demo.vtt" srclang="en" label="English captions" default />
-            Your browser does not support the video tag.
-          </video>
-        -->
-        <figcaption>End-to-end walkthrough: recognition → clue → overlay → living portrait.</figcaption>
+        <video class="demo-video" controls preload="metadata" playsinline>
+          <source src="assets/videos/demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <figcaption>End-to-end walkthrough: passthrough recognition → wall anchor → living-portrait overlay.</figcaption>
       </figure>
 
       <h3 class="subhead">Screenshots</h3>
       <ul class="gallery" role="list">
-        <li><button class="thumb" type="button" data-full="assets/images/shot-01.jpg" aria-label="Open screenshot 1 — staged gallery, recognition active">
-          <span class="thumb-ph">01 · Staged gallery</span>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-01.png" aria-label="Open screenshot 1 — themed-hunt menu">
+          <span class="thumb-ph">01 · Hunt menu</span>
         </button></li>
-        <li><button class="thumb" type="button" data-full="assets/images/shot-02.jpg" aria-label="Open screenshot 2 — anchored clue overlay">
-          <span class="thumb-ph">02 · Anchored clue</span>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-02.png" aria-label="Open screenshot 2 — George Washington living portrait">
+          <span class="thumb-ph">02 · George Washington</span>
         </button></li>
-        <li><button class="thumb" type="button" data-full="assets/images/shot-03.jpg" aria-label="Open screenshot 3 — living portrait moment">
-          <span class="thumb-ph">03 · Living portrait</span>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-03.png" aria-label="Open screenshot 3 — Dolley Madison living portrait">
+          <span class="thumb-ph">03 · Dolley Madison</span>
         </button></li>
-        <li><button class="thumb" type="button" data-full="assets/images/shot-04.jpg" aria-label="Open screenshot 4 — themed-hunt selection UI">
-          <span class="thumb-ph">04 · Theme select</span>
-        </button></li>
-        <li><button class="thumb" type="button" data-full="assets/images/shot-05.jpg" aria-label="Open screenshot 5 — hunt completion state">
-          <span class="thumb-ph">05 · Hunt complete</span>
-        </button></li>
-        <li><button class="thumb" type="button" data-full="assets/images/shot-06.jpg" aria-label="Open screenshot 6 — generation pipeline output">
-          <span class="thumb-ph">06 · Generation grid</span>
+        <li><button class="thumb" type="button" data-full="assets/images/shot-04.png" aria-label="Open screenshot 4 — completed hunt">
+          <span class="thumb-ph">04 · Hunt complete</span>
         </button></li>
       </ul>
-      <p class="footnote">Drop final stills into <code>assets/images/</code> using the filenames above; thumbnails will swap in automatically.</p>
-
-      <h3 class="subhead">Comparison &amp; analysis</h3>
-      <div class="grid-2 compare">
-        <div class="compare-card">
-          <h4>Theme A vs. Theme B walkthroughs</h4>
-          <p class="placeholder-inline">Side-by-side video / observations placeholder. Pilot with 2–3 participants planned for Week 6.</p>
-        </div>
-        <div class="compare-card">
-          <h4>Generated vs. curated portrait clips</h4>
-          <p class="placeholder-inline">Quality and consistency analysis across portrait types — placeholder until generation runs are finalized.</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -435,7 +436,7 @@
       <header class="section-head wide">
         <p class="numeral">08</p>
         <h2 id="deliverables-title">Deliverables</h2>
-        <p class="kicker">Slides, report, demo video, and source.</p>
+        <p class="kicker">Slides, demo video, and source.</p>
       </header>
 
       <ul class="deliverables" role="list">
@@ -443,25 +444,21 @@
           <p class="d-tag">Presentation</p>
           <h3>Final slide deck</h3>
           <p>10–15 minute presentation covering motivation, approach, results, and future work.</p>
-          <a class="btn btn-primary" href="assets/docs/frames-that-speak-slides.pdf" data-placeholder="Coming soon">Download (PDF)</a>
-        </li>
-        <li class="deliverable">
-          <p class="d-tag">Report</p>
-          <h3>Final project report</h3>
-          <p>Written report covering technical detail, results, evaluation, and contribution breakdown.</p>
-          <a class="btn btn-primary" href="assets/docs/frames-that-speak-report.pdf" data-placeholder="Coming soon">Download (PDF)</a>
+          <div class="deliverable-actions">
+            <a class="btn btn-primary" href="assets/docs/frames-that-speak-slides.pdf">Open slides (PDF)</a>
+          </div>
         </li>
         <li class="deliverable">
           <p class="d-tag">Demo</p>
           <h3>System walkthrough video</h3>
           <p>Captured walkthrough of the staged gallery, narrated.</p>
-          <a class="btn btn-primary" href="assets/videos/demo.mp4" data-placeholder="Coming soon">Watch</a>
+          <a class="btn btn-primary" href="assets/videos/demo.mp4">Watch</a>
         </li>
         <li class="deliverable">
           <p class="d-tag">Source</p>
           <h3>Project repository</h3>
           <p>Site source on GitHub. Project source repositories linked from the README.</p>
-          <a class="btn btn-primary" href="https://github.com/jbauer21/FramesThatSpeakSite" rel="noopener">Open repo</a>
+          <a class="btn btn-primary" href="https://github.com/arindamshivatrip/Framing_Tests/tree/Game_Navigation" rel="noopener">Open repo</a>
         </li>
       </ul>
     </div>
@@ -511,7 +508,8 @@
       Julian Bauer, Shruti Khetade, Arindam Tripathi
     </p>
     <p class="muted">
-      Site last updated <time datetime="2026-05-15">May 15, 2026</time>.
+      Site last updated <time datetime="2026-05-16">May 16, 2026</time>.
+
       Built as a static site; deployable to GitHub Pages from the repo root.
     </p>
   </div>
